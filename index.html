@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>菜鸟主页</title>
+  <script src="js/vue-2.4.0.js"></script>
+  <style>
+    #box {
+      border: 1px solid #ccc;
+      padding: 10px;
+    }
+    /*     
+    .btn {
+      display: inline;
+      padding: .2em .6em .3em;
+      font-size: 75%;
+      font-weight: 700;
+      line-height: 1;
+      color: #fff;
+      text-align: center;
+      white-space: nowrap;
+      vertical-align: baseline;
+      border-radius: .25em;
+    } */
+    
+    .btn {
+      border-radius: 1px 1px;
+      /* border: none; */
+      color: #000;
+      border: 1px solid purple;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div id="box">
+    <div id="app">
+      <h2 @mouseover='action' style="color: red">{{ msg }}</h2>
+      <input type="text" placeholder="请输入内容" v-model='msg' style="color: green">
+      <!-- <input type="button" value="清空" class="btn" @click='clear'> -->
+    </div>
+  </div>
+  <script>
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '来了老弟¿¿ ʕ •ᴥ•ʔ ʕ •ᴥ•ʔ',
+      },
+      methods: {
+        action() {
+          var timerId = setInterval(() => {
+            var start = this.msg.substring(0, 1);
+            var end = this.msg.substring(1);
+            this.msg = end + start;
+          }, 600)
+        },
+        // clear() {
+        //   this.message = '';
+        // }
+
+      }
+    })
+  </script>
+</body>
+
+</html>
