@@ -1,0 +1,30 @@
+<template>
+  <div>
+    
+  </div>
+</template>
+<script>
+export default {
+  data(){
+    return{
+      id:this.$route.params.id
+    }
+  },
+  created(){
+    this.getDetail();
+    this.getImgs();
+  },
+  methods:{
+    getDetail(){
+      this.$http.get('/api/getimageInfo/'+this.id).then(result=>{
+        console.log(result)        
+      })
+    },
+    getImgs(){
+      this.$http.get('/api/getthumimages/'+this.id).then(result=>{
+        console.log(result)      
+      })      
+    }
+  }
+}
+</script>
