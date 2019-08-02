@@ -56,13 +56,16 @@
             var start = this.msg.substring(0, 1);
             var end = this.msg.substring(1);
             this.msg = end + start;
-          }, 600)
+          }, 1000)
         },
         // clear() {
         //   this.message = '';
         // }
 
-      }
+      },
+      created() {
+        this.action()
+      },
     })
   </script>
 </body>

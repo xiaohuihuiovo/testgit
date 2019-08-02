@@ -54,11 +54,16 @@
       template: '#tmpl',
       methods: {
         postComment() {
+          if (this.user.trim().length < 2 && this.content.trim().length < 2) {
+            alert('请输入完整的信息!')
+            return
+          }
           var comment = {
             id: Date.now(),
             user: this.user,
             content: this.content
           }
+
           var list = JSON.parse(localStorage.getItem('cmts') || '[]')
           list.unshift(comment)
           localStorage.setItem('cmts', JSON.stringify(list))
