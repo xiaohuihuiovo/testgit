@@ -19,6 +19,7 @@
     <ul class="list-group">
       <li class="list-group-item" v-for="item in list" :key="item.id">
         <span class="badge">评论人:{{ item.user }}</span> {{ item.content }}
+        <span class="badge">时间:{{ item.date | format('yyyy-MM-dd hh:mm:ss') }}</span>
       </li>
     </ul>
 
@@ -28,12 +29,12 @@
     <div>
       <div class="form-group">
         <label >评论人:</label>
-        <input type="text" class="form-control" v-model="user">
+        <input type="text" class="form-control" placeholder="请输入评论人" v-model="user">
       </div>
       
       <div class="form-group">
         <label >评论内容:</label>
-        <textarea class="form-control" v-model="content"></textarea>
+        <textarea class="form-control" placeholder="请输入评论内容" v-model="content"></textarea>
       </div>
 
       <div class="form-group">
@@ -45,34 +46,76 @@
 
   <script>
     var commentBox = {
-      data() {
-        return {
-          user: '',
-          content: ''
-        }
-      },
-      template: '#tmpl',
-      methods: {
-        postComment() {
-          if (this.user.trim().length < 2 && this.content.trim().length < 2) {
-            alert('请输入完整的信息!')
-            return
+        data() {
+          return {
+            user: '',
+            content: ''
+              // date: new Date()
           }
-          var comment = {
-            id: Date.now(),
-            user: this.user,
-            content: this.content
+        },
+        template: '#tmpl',
+        methods: {
+          postComment() {
+            if (this.user.trim().length < 2 && this.content.trim().length < 2) {
+              alert('请输入完整的信息!')
+              return
+            }
+            var comment = {
+              id: Date.now(),
+              user: this.user,
+              content: this.content,
+              date: new Date()
+            }
+
+            var list = JSON.parse(localStorage.getItem('cmts') || '[]')
+            list.unshift(comment)
+            localStorage.setItem('cmts', JSON.stringify(list))
+
+            this.user = this.content = ''
+            this.$emit('func')
           }
-
-          var list = JSON.parse(localStorage.getItem('cmts') || '[]')
-          list.unshift(comment)
-          localStorage.setItem('cmts', JSON.stringify(list))
-
-          this.user = this.content = ''
-          this.$emit('func')
         }
       }
-    }
+      //定义时间过滤器
+    Vue.filter('format', function(value, arg) {
+      function dateFormat(date, format) {
+        if (typeof date === "string") {
+          var mts = date.match(/(\/Date\((\d+)\)\/)/);
+          if (mts && mts.length >= 3) {
+            date = parseInt(mts[2]);
+          }
+        }
+        date = new Date(date);
+        if (!date || date.toUTCString() == "Invalid Date") {
+          return "";
+        }
+        var map = {
+          "M": date.getMonth() + 1, //月份 
+          "d": date.getDate(), //日 
+          "h": date.getHours(), //小时 
+          "m": date.getMinutes(), //分 
+          "s": date.getSeconds(), //秒 
+          "q": Math.floor((date.getMonth() + 3) / 3), //季度 
+          "S": date.getMilliseconds() //毫秒 
+        };
+
+        format = format.replace(/([yMdhmsqS])+/g, function(all, t) {
+          var v = map[t];
+          if (v !== undefined) {
+            if (all.length > 1) {
+              v = '0' + v;
+              v = v.substr(v.length - 2);
+            }
+            return v;
+          } else if (t === 'y') {
+            return (date.getFullYear() + '').substr(4 - all.length);
+          }
+          return all;
+        });
+        return format;
+      }
+      return dateFormat(value, arg);
+    })
 
     var vm = new Vue({
       el: '#app',
