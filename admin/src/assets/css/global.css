@@ -24,3 +24,21 @@ body,
 .el-pagination {
   margin-top: 15px;
 }
+
+.el-steps {
+  margin: 15px 0;
+}
+
+.el-step_title {
+  font-size: 13px
+}
+
+.el-popper {
+  top: 10px;
+  height: 500px;
+  overflow: hidden;
+}
+
+.ql-editor {
+  min-height: 300px
+}
