@@ -1,29 +1,15 @@
-# calculator
+# vue计算器
+```
+elementui + vuex
 
-## Project setup
-```
-yarn install
-```
-
-### Compiles and hot-reloads for development
-```
-yarn run serve
 ```
 
-### Compiles and minifies for production
+## 安装依赖
 ```
-yarn run build
+npm install
 ```
-
-### Run your tests
+## 启动项目
 ```
-yarn run test
-```
-
-### Lints and fixes files
-```
-yarn run lint
+npm  run serve
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
